@@ -1,0 +1,11 @@
+valid:
+  name: "John Doe"
+  email: "john.doe@example.com"
+  card_number: "1234567812345678"
+  number_of_bags: 2
+
+invalid:
+  name: ""
+  email: "invalid_email"
+  card_number: "12345678"
+  number_of_bags: 0
