@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import BagsCounterSection from "./shared/BagsCounterSection";
+import PersonalDetailsSection from "./shared/PersonalDetailsSection";
+import CardDetailsSection from "./shared/CardDetailsSection";
+import PriceDisplayAndSubmit from "./shared/PriceDisplayAndSubmit";
 // import axios from "axios";
 
 const BookingForm = () => {
@@ -81,83 +85,31 @@ const BookingForm = () => {
         <h1>Vasco's Cookie Store</h1>
       </div>
       <form onSubmit={handleSubmit} className="booking-form">
-        <div className="form-section">
-          <div className="form-group form-inline">
-            <label htmlFor="numberOfBags">Number of bags</label>
-            <div className="number-of-bags">
-              <button
-                className={`square-button ${
-                  numberOfBags === 1 ? "disabled" : ""
-                }`}
-                type="button"
-                onClick={removeBag}
-                disabled={numberOfBags === 1}
-              >
-                -
-              </button>
-              <p>{numberOfBags}</p>
-              <button className="square-button" type="button" onClick={addBag}>
-                +
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="form-section">
-          <h2>Personal Details:</h2>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              value={name}
-              className={error && error.name ? "error-input" : ""}
-              onChange={e => setName(e.target.value)}
-            />
-            {error && error.name && <p className="error-text">{error.name}</p>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              value={email}
-              className={error && error.email ? "error-input" : ""}
-              onChange={e => setEmail(e.target.value)}
-            />
-            {error && error.email && (
-              <p className="error-text">{error.email}</p>
-            )}
-          </div>
-        </div>
-        <div className="form-section">
-          <h2>Payment Information:</h2>
-          <div className="form-group">
-            <label htmlFor="cardNumber">Card Details</label>
-            <input
-              type="text"
-              placeholder="1234 5678 1234 5678"
-              value={cardNumber}
-              className={error && error.cardNumber ? "error-input" : ""}
-              onChange={e => setCardNumber(e.target.value)}
-            />
-            {error && error.cardNumber && (
-              <p className="error-text">{error.cardNumber}</p>
-            )}
-          </div>
-        </div>
-        <div className="form-section price-section">
-          <div className="form-group form-inline">
-            <div>
-              <p>
-                <span className="small">
-                  {numberOfBags} Bag{numberOfBags > 1 ? "s" : ""}
-                </span>
-              </p>
-              <p className="price">${price}</p>
-            </div>
-            <button type="submit" disabled={!name || !email || !cardNumber}>
-              Book
-            </button>
-          </div>
-        </div>
+        <BagsCounterSection
+          numberOfBags={numberOfBags}
+          addBag={addBag}
+          removeBag={removeBag}
+        />
+        <PersonalDetailsSection
+          name={name}
+          setName={setName}
+          error={error}
+          email={email}
+          setEmail={setEmail}
+        />
+        <CardDetailsSection
+          cardNumber={cardNumber}
+          setCardNumber={setCardNumber}
+          error={error}
+          setError={setError}
+        />
+        <PriceDisplayAndSubmit
+          price={price}
+          numberOfBags={numberOfBags}
+          name={name}
+          email={email}
+          cardNumber={cardNumber}
+        />
       </form>
     </div>
   );
