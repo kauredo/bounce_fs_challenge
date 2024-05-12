@@ -3,7 +3,13 @@ import BagsCounterSection from "./shared/BagsCounterSection";
 import PersonalDetailsSection from "./shared/PersonalDetailsSection";
 import CardDetailsSection from "./shared/CardDetailsSection";
 import PriceDisplayAndSubmit from "./shared/PriceDisplayAndSubmit";
-// import axios from "axios";
+import axios, { AxiosError } from "axios";
+
+interface ErrorResponse {
+  name?: string[];
+  email?: string[];
+  card_number?: string[];
+}
 
 const BookingForm = () => {
   const [numberOfBags, setNumberOfBags] = useState(1);
@@ -15,7 +21,41 @@ const BookingForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Validate the form
     validateAll();
+
+    // If there are errors, don't submit the form
+    if (error.name || error.email || error.cardNumber) {
+      return;
+    }
+
+    // Prepare the data to send
+    const data = {
+      name: name,
+      email: email,
+      card_number: cardNumber,
+      number_of_bags: numberOfBags,
+    };
+
+    try {
+      const response = await axios.post("http://localhost:3000/bookings", data);
+
+      console.log(response.data); // Temporarily log the response
+    } catch (serverError) {
+      if (axios.isAxiosError(serverError)) {
+        const axiosError = serverError as AxiosError;
+        const responseErrorData = axiosError.response?.data as ErrorResponse;
+        const flattenedErrors = {
+          name: `Name ${responseErrorData.name?.join(", ")}`,
+          email: `Email ${responseErrorData.email?.join(", ")}`,
+          cardNumber: `Card # ${responseErrorData.card_number?.join(", ")}`,
+        };
+
+        setError({ ...error, ...flattenedErrors });
+      } else {
+        console.error("An unexpected error occurred:", serverError);
+      }
+    }
   };
 
   const addBag = () => {
@@ -44,10 +84,14 @@ const BookingForm = () => {
     validateCardNumber();
   }, [cardNumber]);
 
+  useEffect(() => {
+    validateAll();
+  }, []);
+
   const validateAll = () => {
+    validateCardNumber();
     validateName();
     validateEmail();
-    validateCardNumber();
   };
 
   const validateName = () => {

@@ -14,6 +14,7 @@ const CardDetailsSection = ({ cardNumber, setCardNumber, error }: Props) => (
         type="text"
         placeholder="1234 5678 1234 5678"
         value={cardNumber}
+        name="cardNumber"
         className={error && error.cardNumber ? "error-input" : ""}
         onChange={e => setCardNumber(e.target.value)}
       />

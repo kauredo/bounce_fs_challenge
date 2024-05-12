@@ -20,6 +20,7 @@ const PersonalDetailsSection = ({
       <input
         type="text"
         value={name}
+        name="name"
         className={error && error.name ? "error-input" : ""}
         onChange={e => setName(e.target.value)}
       />
@@ -30,6 +31,7 @@ const PersonalDetailsSection = ({
       <input
         type="email"
         value={email}
+        name="email"
         className={error && error.email ? "error-input" : ""}
         onChange={e => setEmail(e.target.value)}
       />
