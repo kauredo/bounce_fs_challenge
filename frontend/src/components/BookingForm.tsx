@@ -18,9 +18,11 @@ const BookingForm = () => {
   const [price, setPrice] = useState(10);
   const [cardNumber, setCardNumber] = useState("");
   const [error, setError] = useState({} as any);
+  const [overlayVisible, setOverlayVisible] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setOverlayVisible(true);
     // Validate the form
     validateAll();
 
@@ -55,6 +57,8 @@ const BookingForm = () => {
       } else {
         console.error("An unexpected error occurred:", serverError);
       }
+    } finally {
+      setOverlayVisible(false);
     }
   };
 
@@ -155,6 +159,11 @@ const BookingForm = () => {
           cardNumber={cardNumber}
         />
       </form>
+      {overlayVisible && (
+        <div className="overlay">
+          <div className="overlay-content">Placing Booking...</div>
+        </div>
+      )}
     </div>
   );
 };
