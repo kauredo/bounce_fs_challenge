@@ -4,6 +4,7 @@ import PersonalDetailsSection from "./shared/PersonalDetailsSection";
 import CardDetailsSection from "./shared/CardDetailsSection";
 import PriceDisplayAndSubmit from "./shared/PriceDisplayAndSubmit";
 import axios, { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface ErrorResponse {
   name?: string[];
@@ -19,6 +20,7 @@ const BookingForm = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [error, setError] = useState({} as any);
   const [overlayVisible, setOverlayVisible] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,9 +42,8 @@ const BookingForm = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:3000/bookings", data);
-
-      console.log(response.data); // Temporarily log the response
+      await axios.post("http://localhost:3000/bookings", data);
+      navigate("/success");
     } catch (serverError) {
       if (axios.isAxiosError(serverError)) {
         const axiosError = serverError as AxiosError;
