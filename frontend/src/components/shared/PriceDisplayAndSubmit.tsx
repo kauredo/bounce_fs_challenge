@@ -4,6 +4,7 @@ interface Props {
   cardNumber: string;
   numberOfBags: number;
   price: number;
+  error: { server: string };
 }
 
 const PriceDisplayAndSubmit = ({
@@ -12,6 +13,7 @@ const PriceDisplayAndSubmit = ({
   cardNumber,
   numberOfBags,
   price,
+  error,
 }: Props) => (
   <div className="form-section price-section">
     <div className="form-group form-inline">
@@ -23,8 +25,13 @@ const PriceDisplayAndSubmit = ({
         </p>
         <p className="price">${price}</p>
       </div>
-      <button type="submit" disabled={!name || !email || !cardNumber}>
-        Book
+
+      <button
+        type="submit"
+        disabled={!name || !email || !cardNumber}
+        className={`${error.server && "error"}`}
+      >
+        {error.server ? "Retry" : "Book"}
       </button>
     </div>
   </div>

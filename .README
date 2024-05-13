@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Description](#description)
+- [System Requirements](#system-requirements)
 - [Installation](#installation)
 - [Usage](#usage)
 
@@ -15,6 +16,22 @@ The backend provides a RESTful API with an endpoint for creating a booking.
 The frontend is a single-page application that communicates with the backend API to display and manipulate data. It uses React Router for client-side routing and Axios for making API requests.
 
 To get started, follow the installation instructions below.
+
+## System Requirements
+
+This application is designed to work optimally with the following versions of Ruby and Node.js. Please ensure you have these versions installed on your system to avoid compatibility issues.
+
+### Ruby Version
+
+- **Specified in `.ruby-version` File**: The `.ruby-version` file in the backend directory specifies the Ruby version required for this project. Please ensure you have this version installed to proceed.
+- **Recommended Version**: Ruby 3.2.2
+
+### Node.js Version
+
+- **Specified in `.nvmrc` File**: The `.nvmrc` file in the frontend directory specifies the Node.js version required for this project. Please ensure you have this version installed to proceed.
+- **Recommended Version**: Node 20.10.0
+
+By adhering to these recommendations, you should be able to run the application without encountering major compatibility issues.
 
 ## Installation
 

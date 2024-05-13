@@ -7,9 +7,7 @@ import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
 interface ErrorResponse {
-  name?: string[];
-  email?: string[];
-  card_number?: string[];
+  [key: string]: string[];
 }
 
 const BookingForm = () => {
@@ -48,13 +46,18 @@ const BookingForm = () => {
       if (axios.isAxiosError(serverError)) {
         const axiosError = serverError as AxiosError;
         const responseErrorData = axiosError.response?.data as ErrorResponse;
-        const flattenedErrors = {
-          name: `Name ${responseErrorData.name?.join(", ")}`,
-          email: `Email ${responseErrorData.email?.join(", ")}`,
-          cardNumber: `Card # ${responseErrorData.card_number?.join(", ")}`,
+        const flattenedErrors: { [key: string]: string } = {};
+
+        for (const key in responseErrorData) {
+          flattenedErrors[key] = responseErrorData[key].join(", ");
+        }
+
+        const newError = {
+          ...flattenedErrors,
+          server: "Your booking has failed. Please try again",
         };
 
-        setError({ ...error, ...flattenedErrors });
+        setError(newError);
       } else {
         console.error("An unexpected error occurred:", serverError);
       }
@@ -152,12 +155,14 @@ const BookingForm = () => {
           error={error}
           setError={setError}
         />
+        {error.server && <div className="error-text">{error.server}</div>}
         <PriceDisplayAndSubmit
           price={price}
           numberOfBags={numberOfBags}
           name={name}
           email={email}
           cardNumber={cardNumber}
+          error={error}
         />
       </form>
       {overlayVisible && (
